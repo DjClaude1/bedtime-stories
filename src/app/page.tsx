@@ -1,101 +1,90 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { Moon, Sparkles, Heart, Headphones, BookOpen, Users } from 'lucide-react';
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="container-app pt-10 pb-24">
+      <header className="flex items-center justify-between mb-12">
+        <div className="flex items-center gap-2">
+          <Moon className="w-6 h-6 text-night-300 animate-floaty" />
+          <span className="font-serif text-xl">Moonlit</span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+        <nav className="flex items-center gap-3 text-sm">
+          <Link href="/pricing" className="hover:text-white">Pricing</Link>
+          <Link href="/login" className="btn-ghost text-sm">Sign in</Link>
+        </nav>
+      </header>
+
+      <section className="text-center mb-16">
+        <p className="text-night-300 text-sm tracking-widest uppercase mb-4">Bedtime, re-imagined</p>
+        <h1 className="font-serif text-4xl sm:text-5xl leading-tight mb-4">
+          A new magical story,<br/>
+          <span className="text-night-300">every night.</span>
+        </h1>
+        <p className="text-night-200/80 text-base sm:text-lg max-w-xl mx-auto mb-8">
+          Soft, personalized bedtime stories starring your child — crafted to calm little minds and
+          gently carry them into dreams.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <Link href="/login" className="btn-primary inline-flex items-center gap-2">
+            <Sparkles className="w-4 h-4" />
+            Tuck in with a story
+          </Link>
+          <Link href="/pricing" className="btn-ghost">See plans</Link>
+        </div>
+      </section>
+
+      <section className="grid sm:grid-cols-2 gap-4 mb-16">
+        <FeatureCard
+          icon={<Heart className="w-5 h-5" />}
+          title="Personal & tender"
+          body="Your child is the hero. We weave their name, interests, and favorite characters into every story."
+        />
+        <FeatureCard
+          icon={<Headphones className="w-5 h-5" />}
+          title="Soft narrated audio"
+          body="Calming voice narration to help eyes grow heavy, without parents losing their voice."
+        />
+        <FeatureCard
+          icon={<BookOpen className="w-5 h-5" />}
+          title="Continue the adventure"
+          body="Pick up tomorrow where tonight ended — characters, settings, and gentle memories carry on."
+        />
+        <FeatureCard
+          icon={<Users className="w-5 h-5" />}
+          title="Every little one"
+          body="Add multiple children — each with their own bedtime world, vocabulary, and dreams."
+        />
+      </section>
+
+      <section className="card text-center">
+        <p className="text-night-300 text-sm uppercase tracking-widest mb-2">How it feels</p>
+        <p className="font-serif text-lg italic text-night-100 leading-relaxed">
+          “Tonight, a little moonbeam tiptoed across Maya&apos;s pillow, whispering that it was time to
+          float, just softly, into a dream about her brave little bunny friend…”
+        </p>
+      </section>
+
+      <footer className="text-center text-xs text-night-300/60 mt-16">
+        Made with moonlight. Sweet dreams.
       </footer>
+    </main>
+  );
+}
+
+function FeatureCard({
+  icon,
+  title,
+  body,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  body: string;
+}) {
+  return (
+    <div className="card">
+      <div className="flex items-center gap-2 mb-2 text-night-300">{icon}<span className="font-medium">{title}</span></div>
+      <p className="text-night-100/80 text-sm leading-relaxed">{body}</p>
     </div>
   );
 }
