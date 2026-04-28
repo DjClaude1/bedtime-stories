@@ -1,4 +1,4 @@
-import { AI_CONFIG, estimateTextCostCents, getOpenAI } from './provider';
+import { AI_CONFIG, estimateTextCostCents, getGemini, getOpenAI } from './provider';
 import { buildSystemPrompt, buildUserPrompt, parseStoryOutput } from './prompts';
 import type { Child, StoryMode } from '../types';
 
@@ -19,7 +19,6 @@ export async function generateStory(args: {
   targetWords: number;
   continuation?: { previousTitle: string; previousSummary: string };
 }): Promise<GeneratedStory> {
-  const openai = getOpenAI();
   const system = buildSystemPrompt();
   const user = buildUserPrompt(args);
 
@@ -27,6 +26,34 @@ export async function generateStory(args: {
     throw new Error('Prompt too large.');
   }
 
+  if (AI_CONFIG.textProvider === 'gemini') {
+    const gemini = getGemini();
+    const model = gemini.getGenerativeModel({
+      model: AI_CONFIG.textModel,
+      systemInstruction: system,
+      generationConfig: {
+        temperature: 0.9,
+        maxOutputTokens: AI_CONFIG.maxCompletionTokens,
+      },
+    });
+    const resp = await model.generateContent(user);
+    const raw = resp.response.text().trim();
+    const { text, title, summary } = parseStoryOutput(raw, args.child.name);
+    const usage = resp.response.usageMetadata;
+    const promptTokens = usage?.promptTokenCount ?? 0;
+    const completionTokens = usage?.candidatesTokenCount ?? 0;
+    return {
+      text,
+      title,
+      summary,
+      model: AI_CONFIG.textModel,
+      promptTokens,
+      completionTokens,
+      estimatedCostCents: estimateTextCostCents(AI_CONFIG.textModel, promptTokens, completionTokens),
+    };
+  }
+
+  const openai = getOpenAI();
   const resp = await openai.chat.completions.create({
     model: AI_CONFIG.textModel,
     temperature: 0.85,
